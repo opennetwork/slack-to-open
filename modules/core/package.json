@@ -1,0 +1,25 @@
+{
+  "name": "@opennetwork/slack-to-open.core",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --declaration && npm run tslint",
+    "watch": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/o-network/slack-to-open.git"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1",
+    "@types/rdflib": "^0.20.1",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  }
+}

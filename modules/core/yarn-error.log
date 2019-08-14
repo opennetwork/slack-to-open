@@ -1,0 +1,64 @@
+Arguments: 
+  /usr/local/Cellar/node/11.1.0/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js add @types/node @types/rdflib tsline typescript
+
+PATH: 
+  /Users/fabian/.fastlane/bin:/Users/fabian/.yarn/bin:/Users/fabian/.config/yarn/global/node_modules/.bin:/usr/local/bin:/usr/local/share/android-sdk/build-tools/28.0.2:/usr/local/share/android-sdk/platform-tools:/usr/local/share/android-sdk/tools:/usr/local/opt/gradle/bin:/usr/local/opt/maven/bin:/usr/local/opt/ant/bin:/Users/fabian/Library/Python/2.7/bin:/Users/fabian/.npm-packages/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  10.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.npmjs.org/tsline: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.15.2/libexec/lib/cli.js:66058:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.15.2/libexec/lib/cli.js:129541:22)
+      at Request.emit (events.js:198:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.15.2/libexec/lib/cli.js:130513:10)
+      at Request.emit (events.js:198:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.15.2/libexec/lib/cli.js:130435:12)
+      at Object.onceWrapper (events.js:286:20)
+      at IncomingMessage.emit (events.js:203:15)
+      at endReadableNT (_stream_readable.js:1129:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "@opennetwork/slack-to-open.core",
+    "version": "1.0.0",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+      "build": "tsc --declaration && npm run tslint",
+      "watch": "tsc -w",
+      "tslint": "tslint -c tslint.json -p tsconfig.json",
+      "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+  
+    },
+    "dependencies": {
+  
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/o-network/slack-to-open.git"
+    },
+    "devDependencies": {
+      "@types/node": "^11.13.4",
+      "@types/rdflib": "^0.17.1",
+      "tslint": "^5.16.0",
+      "typescript": "^3.4.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

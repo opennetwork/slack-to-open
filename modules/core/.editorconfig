@@ -9,3 +9,7 @@ insert_final_newline = true
 [src/**.{js,ts,json,md}]
 indent_style = space
 indent_size = 2
+
+[openapi-to-typescript.ts]
+indent_style = space
+indent_size = 2

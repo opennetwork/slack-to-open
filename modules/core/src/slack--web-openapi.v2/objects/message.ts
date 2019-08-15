@@ -1,4 +1,12 @@
 import * as t from "io-ts";
+import { Blocks } from "./blocks";
+import * as Definitions from "../definitions";
+import { Comment } from "./comment";
+import { File } from "./file";
+import { Reaction } from "./reaction";
+import { User } from "./user";
+import { UserProfile } from "./user-profile";
+import { UserProfileShort } from "./user-profile-short";
 
 export const Message = t.exact(t.intersection([
   t.type({
@@ -25,7 +33,7 @@ export const Message = t.exact(t.intersection([
       t.null
     ])),
     client_msg_id: t.string,
-    comment: Objects.Comment,
+    comment: Comment,
     display_as_bot: t.boolean,
     file: Objects.File,
     files: t.array(Objects.File),

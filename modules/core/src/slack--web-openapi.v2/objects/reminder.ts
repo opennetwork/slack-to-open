@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
 
 export const Reminder = t.exact(t.intersection([
   t.type({

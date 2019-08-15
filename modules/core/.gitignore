@@ -2,3 +2,4 @@ node_modules
 dist
 .idea
 slack_web_openapi_v2.json
+openapi-to-typescript.js

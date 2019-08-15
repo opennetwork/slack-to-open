@@ -1,4 +1,10 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { EnterpriseUser } from "./enterprise-user";
+import { Team } from "./team";
+import { TeamProfileField } from "./team-profile-field";
+import { User } from "./user";
+import { UserProfile } from "./user-profile";
 
 export const User = t.array(t.union([
   t.exact(t.intersection([
@@ -8,7 +14,7 @@ export const User = t.array(t.union([
       is_app_user: t.boolean,
       is_bot: t.boolean,
       name: t.string,
-      profile: Objects.UserProfile,
+      profile: UserProfile,
       updated: t.number
     }),
     t.partial({

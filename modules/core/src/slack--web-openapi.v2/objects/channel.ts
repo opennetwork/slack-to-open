@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Message } from "./message";
 
 export const Channel = t.exact(t.intersection([
   t.type({
@@ -34,7 +36,7 @@ export const Channel = t.exact(t.intersection([
     is_read_only: t.boolean,
     last_read: Definitions.Ts,
     latest: t.array(t.union([
-      Objects.Message,
+      Message,
       t.null
     ])),
     num_members: t.Int,

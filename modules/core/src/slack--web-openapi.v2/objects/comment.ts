@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Reaction } from "./reaction";
 
 export const Comment = t.exact(t.intersection([
   t.type({
@@ -14,6 +16,6 @@ export const Comment = t.exact(t.intersection([
     num_stars: t.Int,
     pinned_info: Definitions.PinnedInfo,
     pinned_to: t.array(Definitions.Channel),
-    reactions: t.array(Objects.Reaction)
+    reactions: t.array(Reaction)
   })
 ]));

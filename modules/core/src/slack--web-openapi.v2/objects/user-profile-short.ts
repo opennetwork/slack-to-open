@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
 
 export const UserProfileShort = t.exact(t.type({
   avatar_hash: t.string,

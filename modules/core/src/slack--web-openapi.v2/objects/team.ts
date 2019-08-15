@@ -1,10 +1,12 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Icon } from "./icon";
 
 export const Team = t.exact(t.intersection([
   t.type({
     domain: t.string,
     email_domain: t.string,
-    icon: Objects.Icon,
+    icon: Icon,
     id: Definitions.Team,
     name: t.string
   }),

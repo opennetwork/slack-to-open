@@ -1,4 +1,7 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Message } from "./message";
+import { Team } from "./team";
 
 export const Conversation = t.array(t.union([
   t.exact(t.intersection([
@@ -56,7 +59,7 @@ export const Conversation = t.array(t.union([
       is_thread_only: t.boolean,
       last_read: Definitions.Ts,
       latest: t.array(t.union([
-        Objects.Message,
+        Message,
         t.null
       ])),
       members: t.array(Definitions.UserId),

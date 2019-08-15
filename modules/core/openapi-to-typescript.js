@@ -126,33 +126,101 @@ function generate(directory, schema) {
         referenceMap[reference.$ref] = to(reference.$ref, found, getReferenced);
         return getReferenced(reference, returnType);
     }
-    Object.keys(schema.definitions)
+    var allTypes = Object.keys(schema.definitions)
         .map(function (key) {
         var reference = "#/definitions/" + key;
+        var name = getName(reference);
+        var splitName = name.split(".");
+        var namespace = splitName.length === 2 ? splitName[0] : "";
+        var typeName = splitName[splitName.length - 1];
         return {
-            name: getName(reference),
+            namespace: namespace,
+            typeName: typeName,
+            name: name,
             type: getReferenced({ $ref: reference }, true)
         };
-    })
-        .map(function (_a) {
-        var name = _a.name, type = _a.type;
+    });
+    function getFile(fileNamespace, typeName, file) {
+        var imports = [
+            "import * as t from \"io-ts\";"
+        ];
+        var namespaces = allTypes
+            .map(function (_a) {
+            var name = _a.name;
+            return name;
+        })
+            .filter(function (name) { return file.includes(name); })
+            .reduce(function (map, name) {
+            var _a;
+            var split = name.split(".");
+            var namespace = split.length === 2 ? split[0] : "";
+            return __assign({}, map, (_a = {}, _a[namespace] = (map[namespace] || []).concat(split[split.length - 1]), _a));
+        }, {});
+        var resultType = file;
+        Object.keys(namespaces)
+            .forEach(function (namespace) {
+            if (namespace === fileNamespace || namespace === "") {
+                if (namespace !== "") {
+                    resultType = resultType.replace(namespace + ".", "");
+                }
+                namespaces[namespace]
+                    .forEach(function (name) {
+                    imports.push("import { " + name + " } from \"./" + change_case_1.paramCase(name) + "\";");
+                });
+            }
+            else {
+                imports.push("import * as " + namespace + " from \"../" + change_case_1.paramCase(namespace) + "\";");
+            }
+        });
+        return imports.concat([
+            "",
+            "export const " + typeName + " = " + resultType + ";"
+        ]).join("\n");
+    }
+    // Write each types file
+    allTypes
+        .forEach(function (_a) {
+        var namespace = _a.namespace, typeName = _a.typeName, type = _a.type;
         var runtime = t.printRuntime(type);
-        var splitName = name.split(".");
         var path = directory;
-        if (splitName.length === 2) {
-            path = directory + "/" + change_case_1.paramCase(splitName[0]);
+        if (namespace !== "") {
+            path = directory + "/" + change_case_1.paramCase(namespace);
         }
         mkdirp_1.sync(path);
-        var typeName = splitName[splitName.length - 1];
-        var file = [
-            "import * as t from \"io-ts\";",
-            "",
-            "export const " + typeName + " = " + runtime + ";"
-        ].join("\n");
-        fs_1.writeFileSync(path + "/" + (change_case_1.paramCase(typeName) + ".ts"), file);
+        var file = getFile(namespace, typeName, runtime);
+        fs_1.writeFileSync(path + "/" + (change_case_1.paramCase(typeName) + ".ts"), file, "utf-8");
+    });
+    allTypes.map(function (_a) {
+        var namespace = _a.namespace;
+        return namespace;
+    })
+        .filter(function (namespace, index, array) {
+        var before = array.slice(0, index);
+        return !before.includes(namespace);
+    })
+        .forEach(function (namespace, namespaceIndex, namespaces) {
+        var index = allTypes
+            .filter(function (_a) {
+            var other = _a.namespace;
+            return other === namespace;
+        })
+            .map(function (_a) {
+            var typeName = _a.typeName;
+            return "export * from \"./" + change_case_1.paramCase(typeName) + "\";";
+        })
+            .concat(namespace === "" ? [
+            namespaces.filter(function (value) { return value; }).map(function (value) { return "export * from \"./" + change_case_1.paramCase(value) + "\";"; }).join("\n")
+        ] : [])
+            .join("\n") + "\n";
+        var path = directory;
+        if (namespace !== "") {
+            path = directory + "/" + change_case_1.paramCase(namespace);
+        }
+        fs_1.writeFileSync(path + "/index.ts", index, "utf-8");
     });
 }
 exports.generate = generate;
+;
 if (!fs_1.existsSync("./slack_web_openapi_v2.json")) {
     console.log("./slack_web_openapi_v2.json does not exist, please download this from https://raw.githubusercontent.com/slackapi/slack-api-specs/master/web-api/slack_web_openapi_v2.json");
     process.exit(1);

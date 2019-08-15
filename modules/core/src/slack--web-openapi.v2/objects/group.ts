@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Message } from "./message";
 
 export const Group = t.exact(t.intersection([
   t.type({
@@ -29,7 +31,7 @@ export const Group = t.exact(t.intersection([
     is_pending_ext_shared: t.boolean,
     last_read: Definitions.Ts,
     latest: t.array(t.union([
-      Objects.Message,
+      Message,
       t.null
     ])),
     num_members: t.Int,

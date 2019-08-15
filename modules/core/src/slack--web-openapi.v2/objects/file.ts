@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import * as Definitions from "../definitions";
+import { Reaction } from "./reaction";
 
 export const File = t.exact(t.partial({
   channels: t.array(Definitions.ChannelId),
@@ -34,7 +36,7 @@ export const File = t.exact(t.partial({
   pretty_type: t.string,
   preview: t.null,
   public_url_shared: t.boolean,
-  reactions: t.array(Objects.Reaction),
+  reactions: t.array(Reaction),
   shares: t.exact(t.partial({
     private: t.exact(t.type({
 

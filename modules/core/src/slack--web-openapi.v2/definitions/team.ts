@@ -1,3 +1,3 @@
 import * as t from "io-ts";
 
-export const Team = t.string;
+export const TeamReference = t.string;

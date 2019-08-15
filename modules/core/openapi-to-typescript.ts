@@ -255,9 +255,15 @@ export function generate(directory: string, schema: OpenAPISchema) {
                 }
             });
 
+        let exportedTypeName = typeName;
+
+        if (fileNamespace === "Definitions" && ["Channel", "Team"].includes(exportedTypeName)) {
+            exportedTypeName = `${exportedTypeName}Reference`;
+        }
+
         return imports.concat([
             ``,
-            `export const ${typeName} = ${resultType};`
+            `export const ${exportedTypeName} = ${resultType};`
         ]).join("\n");
     }
 
@@ -302,7 +308,7 @@ export function generate(directory: string, schema: OpenAPISchema) {
             }
         );
 
-};
+}
 
 if (!existsSync("./slack_web_openapi_v2.json")) {
     console.log("./slack_web_openapi_v2.json does not exist, please download this from https://raw.githubusercontent.com/slackapi/slack-api-specs/master/web-api/slack_web_openapi_v2.json");

@@ -11,7 +11,9 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+    "io-ts": "^2.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/o-network/slack-to-open.git"

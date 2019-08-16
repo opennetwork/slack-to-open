@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { Message } from "./message";
 
-export const Group = t.exact(t.intersection([
+export const Group = t.intersection([
   t.type({
     created: t.Int,
     creator: Definitions.UserId,
@@ -11,16 +11,16 @@ export const Group = t.exact(t.intersection([
     members: t.array(Definitions.UserId),
     name: t.string,
     name_normalized: t.string,
-    purpose: t.exact(t.type({
+    purpose: t.type({
       creator: Definitions.TopicPurposeCreator,
       last_set: t.Int,
       value: t.string
-    })),
-    topic: t.exact(t.type({
+    }),
+    topic: t.type({
       creator: Definitions.TopicPurposeCreator,
       last_set: t.Int,
       value: t.string
-    }))
+    })
   }),
   t.partial({
     is_archived: t.boolean,
@@ -39,4 +39,4 @@ export const Group = t.exact(t.intersection([
     unread_count: t.Int,
     unread_count_display: t.Int
   })
-]));
+]);

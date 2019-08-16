@@ -2,12 +2,12 @@ import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { Icon } from "./icon";
 
-export const Team = t.exact(t.intersection([
+export const Team = t.intersection([
   t.type({
     domain: t.string,
     email_domain: t.string,
     icon: Icon,
-    id: Definitions.Team,
+    id: Definitions.TeamReference,
     name: t.string
   }),
   t.partial({
@@ -30,4 +30,4 @@ export const Team = t.exact(t.intersection([
     over_storage_limit: t.boolean,
     plan: t.string
   })
-]));
+]);

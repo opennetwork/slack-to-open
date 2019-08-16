@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import * as Definitions from "../definitions";
 
-export const Subteam = t.exact(t.intersection([
+export const Subteam = t.intersection([
   t.type({
     auto_provision: t.boolean,
     auto_type: t.array(t.union([
@@ -24,15 +24,15 @@ export const Subteam = t.exact(t.intersection([
     is_subteam: t.boolean,
     is_usergroup: t.boolean,
     name: t.string,
-    prefs: t.exact(t.type({
+    prefs: t.type({
       channels: t.array(Definitions.ChannelId),
       groups: t.array(Definitions.GroupId)
-    })),
-    team_id: Definitions.Team,
+    }),
+    team_id: Definitions.TeamReference,
     updated_by: Definitions.UserId
   }),
   t.partial({
     user_count: t.Int,
     users: t.array(Definitions.UserId)
   })
-]));
+]);

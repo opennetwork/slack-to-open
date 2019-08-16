@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { Reaction } from "./reaction";
 
-export const File = t.exact(t.partial({
+export const File = t.partial({
   channels: t.array(Definitions.ChannelId),
   comments_count: t.Int,
   created: t.Int,
@@ -32,21 +32,21 @@ export const File = t.exact(t.partial({
   permalink: t.string,
   permalink_public: t.string,
   pinned_info: Definitions.PinnedInfo,
-  pinned_to: t.array(Definitions.Channel),
+  pinned_to: t.array(Definitions.ChannelReference),
   pretty_type: t.string,
   preview: t.null,
   public_url_shared: t.boolean,
   reactions: t.array(Reaction),
-  shares: t.exact(t.partial({
-    private: t.exact(t.type({
+  shares: t.partial({
+    private: t.type({
 
-    })),
-    public: t.exact(t.type({
+    }),
+    public: t.type({
 
-    }))
-  })),
+    })
+  }),
   size: t.Int,
-  source_team: Definitions.Team,
+  source_team: Definitions.TeamReference,
   state: t.string,
   thumb_1024: t.string,
   thumb_1024_h: t.Int,
@@ -75,6 +75,6 @@ export const File = t.exact(t.partial({
   url_private: t.string,
   url_private_download: t.string,
   user: t.string,
-  user_team: Definitions.Team,
+  user_team: Definitions.TeamReference,
   username: t.string
-}));
+});

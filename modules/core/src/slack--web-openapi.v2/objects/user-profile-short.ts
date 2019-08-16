@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import * as Definitions from "../definitions";
 
-export const UserProfileShort = t.exact(t.type({
+export const UserProfileShort = t.type({
   avatar_hash: t.string,
   display_name: t.string,
   first_name: t.string,
@@ -11,4 +11,4 @@ export const UserProfileShort = t.exact(t.type({
   name: t.string,
   real_name: t.string,
   team: Definitions.WorkspaceId
-}));
+});

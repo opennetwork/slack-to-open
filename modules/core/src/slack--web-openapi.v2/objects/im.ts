@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import * as Definitions from "../definitions";
 
-export const Im = t.exact(t.intersection([
+export const Im = t.intersection([
   t.type({
     created: t.Int,
     id: Definitions.DmId,
@@ -16,4 +16,4 @@ export const Im = t.exact(t.intersection([
     is_shared: t.boolean,
     priority: t.number
   })
-]));
+]);

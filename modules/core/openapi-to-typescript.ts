@@ -3,6 +3,7 @@ import { ok } from "assert";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { pascalCase, paramCase } from "change-case";
 import { sync as mkdirPSync } from "mkdirp";
+import { sync as rimrafSync } from "rimraf";
 
 interface StringSchema {
     type: "string";
@@ -58,7 +59,13 @@ type ReferenceMap = {
     [key: string]: t.TypeReference
 };
 
-type GetReferenced = (reference: SchemaReference) => t.TypeReference;
+type DependencyMap = {
+    [key: string]: string[]
+};
+
+type AddDependency = (dependency: string) => void;
+
+type GetReferenced = (reference: SchemaReference, addDependency: AddDependency) => t.TypeReference;
 
 function getRequiredProperties(schema: ObjectSchema): { [key: string]: true } {
     const required: { [key: string]: true } = {};
@@ -70,33 +77,29 @@ function getRequiredProperties(schema: ObjectSchema): { [key: string]: true } {
     return required;
 }
 
-function toTypeCombinator(name: string, schema: ObjectSchema, getReferenced: GetReferenced): t.Combinator {
+function toTypeCombinator(name: string, schema: ObjectSchema, getReferenced: GetReferenced, addDependency: AddDependency): t.Combinator {
     const required = getRequiredProperties(schema);
-    const type = t.typeCombinator(
+    return t.typeCombinator(
         Object.keys(schema.properties || {}).map(key =>
-            t.property(key, to(`${name}:properties:${key}`, schema.properties[key], getReferenced), !required.hasOwnProperty(key))
+            t.property(key, to(`${name}:properties:${key}`, schema.properties[key], getReferenced, addDependency), !required.hasOwnProperty(key))
         )
     );
-    if (schema.additionalProperties !== false) {
-        return type;
-    }
-    return t.exactCombinator(type);
 }
 
-function toArrayCombinator(name: string, schema: ArraySchema, getReferenced: GetReferenced): t.Combinator {
-    return t.arrayCombinator(to(`${name}:items`, schema.items, getReferenced));
+function toArrayCombinator(name: string, schema: ArraySchema, getReferenced: GetReferenced, addDependency: AddDependency): t.Combinator {
+    return t.arrayCombinator(to(`${name}:items`, schema.items, getReferenced, addDependency));
 }
 
 function isReference(schema: JSONSchema): schema is SchemaReference {
     return schema.hasOwnProperty("$ref");
 }
 
-export function to(name: string, schema: JSONSchema, getReferenced: GetReferenced): t.TypeReference {
+export function to(name: string, schema: JSONSchema, getReferenced: GetReferenced, addDependency: AddDependency): t.TypeReference {
     if (isReference(schema)) {
-        return getReferenced(schema);
+        return getReferenced(schema, addDependency);
     }
     if (Array.isArray(schema)) {
-        return t.unionCombinator(schema.map(value => to(name, value, getReferenced)));
+        return t.unionCombinator(schema.map(value => to(name, value, getReferenced, addDependency)));
     }
     if (!schema.type && (schema.hasOwnProperty("additionalProperties") || schema.hasOwnProperty("properties"))) {
         return to(
@@ -105,7 +108,8 @@ export function to(name: string, schema: JSONSchema, getReferenced: GetReference
                 type: "object",
                 ...schema
             },
-            getReferenced
+            getReferenced,
+            addDependency
         );
     }
     if (!schema.type && schema.hasOwnProperty("items")) {
@@ -115,7 +119,8 @@ export function to(name: string, schema: JSONSchema, getReferenced: GetReference
                 type: "array",
                 ...schema
             },
-            getReferenced
+            getReferenced,
+            addDependency
         );
     }
     if (Array.isArray(schema.type)) {
@@ -125,7 +130,8 @@ export function to(name: string, schema: JSONSchema, getReferenced: GetReference
                 ...(schema as any),
                 type
             },
-            getReferenced
+            getReferenced,
+            addDependency
         )));
     }
     switch (schema.type) {
@@ -140,11 +146,10 @@ export function to(name: string, schema: JSONSchema, getReferenced: GetReference
         case "boolean":
             return t.booleanType;
         case "array":
-            return toArrayCombinator(name, schema, getReferenced);
+            return toArrayCombinator(name, schema, getReferenced, addDependency);
         case "object":
-            return toTypeCombinator(name, schema, getReferenced);
+            return toTypeCombinator(name, schema, getReferenced, addDependency);
     }
-    console.log(name, JSON.stringify(schema));
 }
 
 function fixSchemaInline(schema: any) {
@@ -177,17 +182,24 @@ function getName(reference: string): string {
     ok(split[1] === "definitions");
     ok(typeof split[2] === "string");
     const prefix = getPrefix(split[2]);
-    return `${prefix[1]}${pascalCase(split[2].substr(prefix[0].length))}`;
+    let typeName = pascalCase(split[2].substr(prefix[0].length));
+    if (prefix[1] === "Definitions." && ["Channel", "Team"].includes(typeName)) {
+        typeName = `${typeName}Reference`;
+    }
+    return `${prefix[1]}${typeName}`;
 }
 
 export function generate(directory: string, schema: OpenAPISchema) {
     fixSchemaInline(schema);
     const referenceMap: ReferenceMap = {};
-    function getReferenced(reference: SchemaReference, returnType: boolean = false): t.TypeReference {
+    const dependencyMap: DependencyMap = {};
+
+    function getReferenced(reference: SchemaReference, addDependency: AddDependency, returnType: boolean = false): t.TypeReference {
         if (referenceMap[reference.$ref]) {
             if (returnType) {
                 return referenceMap[reference.$ref];
             }
+            addDependency(reference.$ref);
             return t.identifier(getName(reference.$ref));
         }
         // Must be like #/definitions/defs_user_id
@@ -199,8 +211,15 @@ export function generate(directory: string, schema: OpenAPISchema) {
         if (!found) {
             throw new Error(`Could not find ${reference.$ref}`);
         }
-        referenceMap[reference.$ref] = to(reference.$ref, found, getReferenced);
-        return getReferenced(reference, returnType);
+        const name = getName(reference.$ref);
+        dependencyMap[name] = [];
+        referenceMap[reference.$ref] = to(reference.$ref, found, getReferenced, dependency => {
+            if (dependency === reference.$ref) {
+                return;
+            }
+            dependencyMap[name].push(getName(dependency));
+        });
+        return getReferenced(reference, addDependency, returnType);
     }
 
     const allTypes = Object.keys(schema.definitions)
@@ -214,16 +233,18 @@ export function generate(directory: string, schema: OpenAPISchema) {
                 namespace,
                 typeName,
                 name,
-                type: getReferenced({ $ref: reference }, true)
+                type: getReferenced({ $ref: reference }, () => {}, true)
             };
         });
 
-    function getFile(fileNamespace: string, typeName: string, file: string): string {
+    function getFile(fileName: string, fileNamespace: string, typeName: string, file: string): string {
+
         const imports = [
             `import * as t from "io-ts";`
         ];
 
         const namespaces: Record<string, string[]> = allTypes
+            .filter(({ name }) => dependencyMap[fileName].includes(name))
             .map(({ name }) => name)
             .filter(name => file.includes(name))
             .reduce(
@@ -242,41 +263,46 @@ export function generate(directory: string, schema: OpenAPISchema) {
 
         Object.keys(namespaces)
             .forEach((namespace) => {
-                if (namespace === fileNamespace || namespace === "") {
-                    if (namespace !== "") {
-                        resultType = resultType.replace(`${namespace}.`, "");
-                    }
+                if (namespace === fileNamespace) {
                     namespaces[namespace]
                         .forEach(name => {
+                            if (namespace) {
+                                const toReplace = `${namespace}.${name}`;
+                                while (resultType.includes(toReplace)) {
+                                    resultType = resultType.replace(toReplace, name);
+                                }
+                            }
                             imports.push(`import { ${name} } from "./${paramCase(name)}";`);
                         });
+                } else if (namespace) {
+                    imports.push(`import * as ${pascalCase(namespace)} from "../${paramCase(namespace)}";`);
                 } else {
-                    imports.push(`import * as ${namespace} from "../${paramCase(namespace)}";`);
+                    namespaces[namespace]
+                        .forEach(name => {
+                            imports.push(`import { ${name} } from "../${paramCase(name)}";`);
+                        });
                 }
             });
 
-        let exportedTypeName = typeName;
-
-        if (fileNamespace === "Definitions" && ["Channel", "Team"].includes(exportedTypeName)) {
-            exportedTypeName = `${exportedTypeName}Reference`;
-        }
-
         return imports.concat([
             ``,
-            `export const ${exportedTypeName} = ${resultType};`
+            `export const ${typeName} = ${resultType};`
         ]).join("\n");
     }
 
+    // Blast the entire directory
+    rimrafSync(directory);
+
     // Write each types file
     allTypes
-        .forEach(({ namespace, typeName, type }) => {
+        .forEach(({ name, namespace, typeName, type }) => {
             const runtime = t.printRuntime(type);
             let path = directory;
             if (namespace !== "") {
                 path = `${directory}/${paramCase(namespace)}`;
             }
             mkdirPSync(path);
-            const file = getFile(namespace, typeName, runtime);
+            const file = getFile(name, namespace, typeName, runtime);
             writeFileSync(`${path}/${paramCase(typeName) + ".ts"}`, file, "utf-8");
         });
 

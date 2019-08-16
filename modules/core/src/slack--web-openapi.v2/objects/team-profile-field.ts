@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 
-export const TeamProfileField = t.exact(t.intersection([
+export const TeamProfileField = t.intersection([
   t.type({
     hint: t.string,
     id: t.string,
@@ -14,4 +14,4 @@ export const TeamProfileField = t.exact(t.intersection([
     is_hidden: t.boolean,
     possible_values: t.array(t.string)
   })
-]));
+]);

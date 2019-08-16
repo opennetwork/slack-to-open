@@ -1,13 +1,11 @@
 import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { EnterpriseUser } from "./enterprise-user";
-import { Team } from "./team";
 import { TeamProfileField } from "./team-profile-field";
-import { User } from "./user";
 import { UserProfile } from "./user-profile";
 
 export const User = t.array(t.union([
-  t.exact(t.intersection([
+  t.intersection([
     t.type({
       deleted: t.boolean,
       id: Definitions.UserId,
@@ -19,7 +17,7 @@ export const User = t.array(t.union([
     }),
     t.partial({
       color: t.string,
-      enterprise_user: Objects.EnterpriseUser,
+      enterprise_user: EnterpriseUser,
       has_2fa: t.boolean,
       is_admin: t.boolean,
       is_invited_user: t.boolean,
@@ -30,11 +28,11 @@ export const User = t.array(t.union([
       locale: t.string,
       presence: t.string,
       real_name: t.string,
-      team: Definitions.Team,
-      team_id: Definitions.Team,
-      team_profile: t.exact(t.type({
-        fields: t.array(Objects.TeamProfileField)
-      })),
+      team: Definitions.TeamReference,
+      team_id: Definitions.TeamReference,
+      team_profile: t.type({
+        fields: t.array(TeamProfileField)
+      }),
       two_factor_type: t.string,
       tz: t.array(t.union([
         t.null,
@@ -43,8 +41,8 @@ export const User = t.array(t.union([
       tz_label: t.string,
       tz_offset: t.number
     })
-  ])),
-  t.exact(t.intersection([
+  ]),
+  t.intersection([
     t.type({
       deleted: t.boolean,
       id: Definitions.UserId,
@@ -53,12 +51,12 @@ export const User = t.array(t.union([
       is_restricted: t.boolean,
       is_ultra_restricted: t.boolean,
       name: t.string,
-      profile: Objects.UserProfile,
+      profile: UserProfile,
       updated: t.number
     }),
     t.partial({
       color: t.string,
-      enterprise_user: Objects.EnterpriseUser,
+      enterprise_user: EnterpriseUser,
       has_2fa: t.boolean,
       is_admin: t.boolean,
       is_owner: t.boolean,
@@ -66,10 +64,10 @@ export const User = t.array(t.union([
       locale: t.string,
       presence: t.string,
       real_name: t.string,
-      team_id: Definitions.Team,
-      team_profile: t.exact(t.type({
-        fields: t.array(Objects.TeamProfileField)
-      })),
+      team_id: Definitions.TeamReference,
+      team_profile: t.type({
+        fields: t.array(TeamProfileField)
+      }),
       teams: t.array(Definitions.WorkspaceId),
       two_factor_type: t.string,
       tz: t.array(t.union([
@@ -79,5 +77,5 @@ export const User = t.array(t.union([
       tz_label: t.string,
       tz_offset: t.number
     })
-  ]))
+  ])
 ]));

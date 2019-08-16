@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import * as Definitions from "../definitions";
 
-export const UserProfile = t.exact(t.intersection([
+export const UserProfile = t.intersection([
   t.type({
     avatar_hash: t.string,
     display_name: t.string,
@@ -47,4 +47,4 @@ export const UserProfile = t.exact(t.intersection([
     teams: Definitions.WorkspaceId,
     title: t.string
   })
-]));
+]);

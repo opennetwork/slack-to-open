@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { Reaction } from "./reaction";
 
-export const Comment = t.exact(t.intersection([
+export const Comment = t.intersection([
   t.type({
     comment: t.string,
     created: t.Int,
@@ -15,7 +15,7 @@ export const Comment = t.exact(t.intersection([
     is_starred: t.boolean,
     num_stars: t.Int,
     pinned_info: Definitions.PinnedInfo,
-    pinned_to: t.array(Definitions.Channel),
+    pinned_to: t.array(Definitions.ChannelReference),
     reactions: t.array(Reaction)
   })
-]));
+]);

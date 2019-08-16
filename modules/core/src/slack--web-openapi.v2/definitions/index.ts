@@ -1,6 +1,6 @@
 export * from "./app-id";
 export * from "./bot-id";
-export * from "./channel";
+export * from "./channel-reference";
 export * from "./channel-id";
 export * from "./channel-name";
 export * from "./comment-id";
@@ -15,7 +15,7 @@ export * from "./ok-true";
 export * from "./pinned-info";
 export * from "./reminder-id";
 export * from "./subteam-id";
-export * from "./team";
+export * from "./team-reference";
 export * from "./topic-purpose-creator";
 export * from "./ts";
 export * from "./user-id";

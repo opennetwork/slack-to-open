@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 
-export const Paging = t.exact(t.intersection([
+export const Paging = t.intersection([
   t.type({
     page: t.Int,
     total: t.Int
@@ -11,4 +11,4 @@ export const Paging = t.exact(t.intersection([
     per_page: t.Int,
     spill: t.Int
   })
-]));
+]);

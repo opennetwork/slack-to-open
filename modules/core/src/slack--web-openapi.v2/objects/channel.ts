@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import * as Definitions from "../definitions";
 import { Message } from "./message";
 
-export const Channel = t.exact(t.intersection([
+export const Channel = t.intersection([
   t.type({
     created: t.Int,
     creator: Definitions.UserId,
@@ -15,16 +15,16 @@ export const Channel = t.exact(t.intersection([
     members: t.array(Definitions.UserId),
     name: t.string,
     name_normalized: t.string,
-    purpose: t.exact(t.type({
+    purpose: t.type({
       creator: Definitions.TopicPurposeCreator,
       last_set: t.Int,
       value: t.string
-    })),
-    topic: t.exact(t.type({
+    }),
+    topic: t.type({
       creator: Definitions.TopicPurposeCreator,
       last_set: t.Int,
       value: t.string
-    }))
+    })
   }),
   t.partial({
     accepted_user: Definitions.UserId,
@@ -40,11 +40,11 @@ export const Channel = t.exact(t.intersection([
       t.null
     ])),
     num_members: t.Int,
-    pending_shared: t.array(Definitions.Team),
+    pending_shared: t.array(Definitions.TeamReference),
     previous_names: t.array(Definitions.ChannelName),
     priority: t.number,
     unlinked: t.Int,
     unread_count: t.Int,
     unread_count_display: t.Int
   })
-]));
+]);

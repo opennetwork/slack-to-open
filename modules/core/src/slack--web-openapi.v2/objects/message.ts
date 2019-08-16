@@ -15,16 +15,28 @@ export const Message = t.intersection([
   t.partial({
     attachments: t.array(t.intersection([
       t.type({
-        id: t.Int
+        id: t.union([
+          t.string,
+          t.Int
+        ])
       }),
       t.partial({
         fallback: t.string,
-        image_bytes: t.Int,
-        image_height: t.Int,
+        image_bytes: t.union([
+          t.string,
+          t.Int
+        ]),
+        image_height: t.union([
+          t.string,
+          t.Int
+        ]),
         image_url: t.string,
-        image_width: t.Int
+        image_width: t.union([
+          t.string,
+          t.Int
+        ])
       })
-    ])),
+    ], "DefinitionsObjsMessagePropertiesAttachmentsItems")),
     blocks: Blocks,
     bot_id: t.array(t.union([
       Definitions.BotId,
@@ -37,7 +49,7 @@ export const Message = t.intersection([
     files: t.array(File),
     icons: t.partial({
       emoji: t.string
-    }),
+    }, "DefinitionsObjsMessagePropertiesIcons"),
     inviter: Definitions.UserId,
     is_delayed_message: t.boolean,
     is_intro: t.boolean,
@@ -54,21 +66,30 @@ export const Message = t.intersection([
     replies: t.array(t.type({
       ts: Definitions.Ts,
       user: Definitions.UserId
-    })),
-    reply_count: t.Int,
+    }, "DefinitionsObjsMessagePropertiesRepliesItems")),
+    reply_count: t.union([
+      t.string,
+      t.Int
+    ]),
     reply_users: t.array(Definitions.UserId),
-    reply_users_count: t.Int,
+    reply_users_count: t.union([
+      t.string,
+      t.Int
+    ]),
     source_team: Definitions.WorkspaceId,
     subscribed: t.boolean,
     subtype: t.string,
     team: Definitions.WorkspaceId,
     thread_ts: Definitions.Ts,
     topic: t.string,
-    unread_count: t.Int,
+    unread_count: t.union([
+      t.string,
+      t.Int
+    ]),
     upload: t.boolean,
     user: Definitions.UserId,
     user_profile: UserProfileShort,
     user_team: Definitions.WorkspaceId,
     username: t.string
   })
-]);
+], "DefinitionsObjsMessage");

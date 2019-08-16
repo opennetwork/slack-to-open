@@ -9,4 +9,4 @@ export const Icon = t.partial({
   image_68: t.string,
   image_88: t.string,
   image_default: t.boolean
-});
+}, "DefinitionsObjsIcon");

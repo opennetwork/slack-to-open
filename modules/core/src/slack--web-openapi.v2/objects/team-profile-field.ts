@@ -14,4 +14,4 @@ export const TeamProfileField = t.intersection([
     is_hidden: t.boolean,
     possible_values: t.array(t.string)
   })
-]);
+], "DefinitionsObjsTeamProfileField");

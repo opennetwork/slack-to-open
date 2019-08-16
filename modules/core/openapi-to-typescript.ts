@@ -80,14 +80,16 @@ function getRequiredProperties(schema: ObjectSchema): { [key: string]: true } {
 function toTypeCombinator(name: string, schema: ObjectSchema, getReferenced: GetReferenced, addDependency: AddDependency): t.Combinator {
     const required = getRequiredProperties(schema);
     return t.typeCombinator(
-        Object.keys(schema.properties || {}).map(key =>
-            t.property(key, to(`${name}:properties:${key}`, schema.properties[key], getReferenced, addDependency), !required.hasOwnProperty(key))
-        )
+        Object.keys(schema.properties || {}).map(key => {
+            const propertyType = to(`${name}_properties_${key}`, schema.properties[key], getReferenced, addDependency);
+            return t.property(key, propertyType, !required.hasOwnProperty(key) || propertyType.kind === "BooleanType");
+        }),
+        pascalCase(name)
     );
 }
 
 function toArrayCombinator(name: string, schema: ArraySchema, getReferenced: GetReferenced, addDependency: AddDependency): t.Combinator {
-    return t.arrayCombinator(to(`${name}:items`, schema.items, getReferenced, addDependency));
+    return t.arrayCombinator(to(`${name}_items`, schema.items, getReferenced, addDependency));
 }
 
 function isReference(schema: JSONSchema): schema is SchemaReference {
@@ -140,7 +142,7 @@ export function to(name: string, schema: JSONSchema, getReferenced: GetReference
         case "string":
             return t.stringType;
         case "integer":
-            return t.identifier("t.Int");
+            return t.unionCombinator([t.stringType, t.identifier("t.Int")]);
         case "number":
             return t.numberType;
         case "boolean":
@@ -163,6 +165,10 @@ function fixSchemaInline(schema: any) {
         schema.definitions.objs_comments.items = {
             $ref: "#/definitions/objs_comment"
         };
+    }
+    if (schema.definitions.objs_channel.required.includes("name_normalized")) {
+        const index = schema.definitions.objs_channel.required.indexOf("name_normalized");
+        schema.definitions.objs_channel.required.splice(index, 1);
     }
 }
 
@@ -259,7 +265,7 @@ export function generate(directory: string, schema: OpenAPISchema) {
                 {}
             );
 
-        let resultType: string = file;
+        let resultType: string = file.replace(/'([^']+)'/g, `"$1"`);
 
         Object.keys(namespaces)
             .forEach((namespace) => {

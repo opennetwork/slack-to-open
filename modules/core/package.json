@@ -25,6 +25,7 @@
     "@types/rdflib": "^0.20.1",
     "@types/rimraf": "^2.0.2",
     "change-case": "^3.1.0",
+    "esm": "^3.2.25",
     "io-ts-codegen": "^0.4.1",
     "mkdirp": "^0.5.1",
     "rimraf": "^3.0.0",

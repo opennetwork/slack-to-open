@@ -17,15 +17,18 @@ export const UserProfile = t.intersection([
     fields: t.union([
       t.type({
 
-      }),
+      }, "DefinitionsObjsUserProfilePropertiesFieldsObject"),
       t.null,
       t.array(t.type({
 
-      }))
+      }, "DefinitionsObjsUserProfilePropertiesFieldsArrayItems"))
     ]),
     first_name: t.string,
     guest_channels: t.string,
-    guest_expiration_ts: t.Int,
+    guest_expiration_ts: t.union([
+      t.string,
+      t.Int
+    ]),
     guest_invited_by: t.string,
     image_1024: t.string,
     image_192: t.string,
@@ -40,11 +43,14 @@ export const UserProfile = t.intersection([
     phone: t.string,
     skype: t.string,
     status_emoji: t.string,
-    status_expiration: t.Int,
+    status_expiration: t.union([
+      t.string,
+      t.Int
+    ]),
     status_text: t.string,
     status_text_canonical: t.string,
     team: Definitions.WorkspaceId,
     teams: Definitions.WorkspaceId,
     title: t.string
   })
-]);
+], "DefinitionsObjsUserProfile");

@@ -13,8 +13,14 @@ export const Team = t.intersection([
   t.partial({
     archived: t.boolean,
     avatar_base_url: t.string,
-    created: t.Int,
-    date_create: t.Int,
+    created: t.union([
+      t.string,
+      t.Int
+    ]),
+    date_create: t.union([
+      t.string,
+      t.Int
+    ]),
     deleted: t.boolean,
     description: t.string,
     discoverable: t.string,
@@ -22,12 +28,24 @@ export const Team = t.intersection([
     enterprise_name: Definitions.EnterpriseName,
     has_compliance_export: t.boolean,
     is_assigned: t.boolean,
-    is_enterprise: t.Int,
-    limit_ts: t.Int,
-    messages_count: t.Int,
-    msg_edit_window_mins: t.Int,
+    is_enterprise: t.union([
+      t.string,
+      t.Int
+    ]),
+    limit_ts: t.union([
+      t.string,
+      t.Int
+    ]),
+    messages_count: t.union([
+      t.string,
+      t.Int
+    ]),
+    msg_edit_window_mins: t.union([
+      t.string,
+      t.Int
+    ]),
     over_integrations_limit: t.boolean,
     over_storage_limit: t.boolean,
     plan: t.string
   })
-]);
+], "DefinitionsObjsTeam");

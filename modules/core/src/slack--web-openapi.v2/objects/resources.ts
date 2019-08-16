@@ -15,4 +15,4 @@ export const Resources = t.intersection([
     ]))),
     wildcard: t.boolean
   })
-]);
+], "DefinitionsObjsResources");

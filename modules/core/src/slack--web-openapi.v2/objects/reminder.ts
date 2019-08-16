@@ -5,12 +5,18 @@ export const Reminder = t.intersection([
   t.type({
     creator: Definitions.UserId,
     id: Definitions.ReminderId,
-    recurring: t.boolean,
     text: t.string,
     user: Definitions.UserId
   }),
   t.partial({
-    complete_ts: t.Int,
-    time: t.Int
+    complete_ts: t.union([
+      t.string,
+      t.Int
+    ]),
+    recurring: t.boolean,
+    time: t.union([
+      t.string,
+      t.Int
+    ])
   })
-]);
+], "DefinitionsObjsReminder");

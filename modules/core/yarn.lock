@@ -18,6 +18,11 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@opennetwork/slack-to-open.slack-web-openapi.v2@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@opennetwork/slack-to-open.slack-web-openapi.v2/-/slack-to-open.slack-web-openapi.v2-1.0.0.tgz#ade8ef8ca9f55b03b510bc6f7c80327f96a4b30b"
+  integrity sha512-P+qKSAVa3g9nCsWJUGy+jTCMB3yEU43h72lnGTHyIAizDWmUqa0VB63tU80KeWIiKmtbPWpxj52oKyNhD3xCDw==
+
 "@opennetwork/web-api-conversation-channel-state@^2.0.0":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@opennetwork/web-api-conversation-channel-state/-/web-api-conversation-channel-state-2.0.0.tgz#a72c541400ed257059dc5ddf4d39b4117e79b6fb"

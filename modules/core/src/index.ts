@@ -16,10 +16,7 @@ const baseState: WebAPIState = {
   provider: {
     "@type": "Organization",
     url: "https://slack.com",
-    name: "Slack",
-    image: {
-      "@type": "ImageObject"
-    }
+    name: "Slack"
   }
 };
 

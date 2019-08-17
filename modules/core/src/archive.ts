@@ -1,22 +1,33 @@
-import { WebAPIState, WebAPIPerson, createWebAPIConversation, createWebAPIPerson } from "@opennetwork/web-api-conversation-channel-state";
-import { Channel, User } from "./slack--web-openapi.v2/objects";
-import { TypeOf } from "io-ts";
+import {
+  WebAPIState,
+  WebAPIPerson,
+  createWebAPIConversation,
+  createWebAPIPerson,
+  WebAPIEntityBase
+} from "@opennetwork/web-api-conversation-channel-state";
+import { SlackChannel, SlackUser } from "@opennetwork/slack-to-open.slack-web-openapi.v2";
 
-export function appendArchiveUsers(state: WebAPIState, users: TypeOf<User>) {
+function updateEntity(state: WebAPIState, entity: Partial<WebAPIEntityBase>): WebAPIState {
   return {
     ...state,
     mainEntityOfPage: {
       ...state.mainEntityOfPage,
-      audience: users.map(
-        (user: TypeOf<typeof User.type>) => ({
-          ...createWebAPIPerson(
-            user.id,
-            user.real_name || user.name
-          )
-        })
-      )
+      ...entity
     }
   };
+}
+
+export function appendArchiveUsers(state: WebAPIState, users: SlackUser) {
+  return updateEntity(state, {
+    audience: users.map(
+      (user: SlackUser) => ({
+        ...createWebAPIPerson(
+          user.id,
+          user.real_name || user.name
+        )
+      })
+    )
+  });
 }
 
 function getUser(state: WebAPIState, id: string): WebAPIPerson {
@@ -25,21 +36,17 @@ function getUser(state: WebAPIState, id: string): WebAPIPerson {
   );
 }
 
-export function appendArchiveChannels(state: WebAPIState, channels: TypeOf<Channel>): WebAPIState {
-  return {
-    ...state,
-    mainEntityOfPage: {
-      ...state.mainEntityOfPage,
-      hasPart: channels.map(
-        (channel: TypeOf<Channel>) => ({
-          ...createWebAPIConversation(
-            channel.id,
-            channel.name,
-            undefined,
-            getUser(state, channel.creator)
-          )
-        })
-      )
-    }
-  };
+export function appendArchiveChannels(state: WebAPIState, channels: SlackChannel): WebAPIState {
+  return updateEntity(state, {
+    hasPart: channels.map(
+      (channel: SlackChannel) => ({
+        ...createWebAPIConversation(
+          channel.id,
+          channel.name,
+          undefined,
+          getUser(state, channel.creator)
+        )
+      })
+    )
+  });
 }

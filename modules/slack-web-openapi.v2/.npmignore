@@ -1,0 +1,7 @@
+node_modules
+store
+examples/store
+.idea
+
+slack_web_openapi_v2.json
+openapi-to-typescript.js

@@ -1,0 +1,35 @@
+{
+  "name": "@opennetwork/slack-to-open.slack-web-openapi.v2",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc ./openapi-to-typescript.ts && node openapi-to-typescript.js && tsc --declaration && npm run tslint",
+    "watch": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "fp-ts": "^2.0.5",
+    "io-ts": "^2.0.1"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/o-network/slack-to-open.git"
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^0.5.2",
+    "@types/node": "^12.7.2",
+    "@types/rimraf": "^2.0.2",
+    "change-case": "^3.1.0",
+    "fp-ts": "^2.0.5",
+    "io-ts": "^2.0.1",
+    "io-ts-codegen": "^0.4.1",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  }
+}

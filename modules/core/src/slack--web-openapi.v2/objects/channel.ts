@@ -46,10 +46,10 @@ export const Channel = t.intersection([
     is_read_only: t.boolean,
     is_shared: t.boolean,
     last_read: Definitions.Ts,
-    latest: t.array(t.union([
+    latest: t.union([
       Message,
       t.null
-    ])),
+    ], "#/definitions/objs_channel_properties_latest"),
     name_normalized: t.string,
     num_members: t.union([
       t.string,

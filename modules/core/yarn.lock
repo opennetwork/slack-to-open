@@ -18,6 +18,15 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@opennetwork/web-api-conversation-channel-state@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@opennetwork/web-api-conversation-channel-state/-/web-api-conversation-channel-state-2.0.0.tgz#a72c541400ed257059dc5ddf4d39b4117e79b6fb"
+  integrity sha512-m6E0x4ECDoumukZ/cVtwiFK6pdN4BZH+yKaSOsfEr7ptCd/2WgXqTReDHPycskLumz0fHKNLxA2qNtWrDvZR8A==
+  dependencies:
+    io-ts "^2.0.1"
+    schema-dts "^0.4.2"
+    tsdef "^0.0.13"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -317,6 +326,11 @@ mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mobx@^5.13.0:
+  version "5.13.0"
+  resolved "https://registry.npmjs.org/mobx/-/mobx-5.13.0.tgz#0fd68f10aa5ff2d146a4ed9e145b53337cfbca59"
+  integrity sha512-eSAntMSMNj0PFL705rgv+aB/z1RjNqDnFEpBe18yQVreXTWiVgIrmBUXzjnJfuba+eo4eAk6zi+/gXQkSUea8A==
 
 no-case@^2.2.0, no-case@^2.3.2:
   version "2.3.2"

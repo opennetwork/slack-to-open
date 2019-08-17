@@ -3,7 +3,7 @@ import * as Definitions from "../definitions";
 import { Message } from "./message";
 import { Team } from "./team";
 
-export const Conversation = t.array(t.union([
+export const Conversation = t.union([
   t.intersection([
     t.type({
       created: t.union([
@@ -21,7 +21,7 @@ export const Conversation = t.array(t.union([
           t.Int
         ]),
         value: t.string
-      }, "DefinitionsObjsConversationItemsPropertiesPurpose"),
+      }, "DefinitionsObjsConversationItemPropertiesPurpose"),
       topic: t.type({
         creator: Definitions.TopicPurposeCreator,
         last_set: t.union([
@@ -29,7 +29,7 @@ export const Conversation = t.array(t.union([
           t.Int
         ]),
         value: t.string
-      }, "DefinitionsObjsConversationItemsPropertiesTopic")
+      }, "DefinitionsObjsConversationItemPropertiesTopic")
     }),
     t.partial({
       accepted_user: Definitions.UserId,
@@ -44,11 +44,11 @@ export const Conversation = t.array(t.union([
           t.string,
           t.Int
         ])
-      }, "DefinitionsObjsConversationItemsPropertiesDisplayCounts"),
+      }, "DefinitionsObjsConversationItemPropertiesDisplayCounts"),
       enterprise_id: Definitions.EnterpriseId,
       external_connections: t.type({
 
-      }, "DefinitionsObjsConversationItemsPropertiesExternalConnections"),
+      }, "DefinitionsObjsConversationItemPropertiesExternalConnections"),
       has_pins: t.boolean,
       internal_team_ids: t.array(Definitions.TeamReference),
       is_archived: t.boolean,
@@ -76,19 +76,19 @@ export const Conversation = t.array(t.union([
       is_starred: t.boolean,
       is_thread_only: t.boolean,
       last_read: Definitions.Ts,
-      latest: t.array(t.union([
+      latest: t.union([
         Message,
         t.null
-      ])),
+      ], "#/definitions/objs_conversation_item_properties_latest"),
       members: t.array(Definitions.UserId),
       num_members: t.union([
         t.string,
         t.Int
       ]),
-      parent_conversation: t.array(t.union([
+      parent_conversation: t.union([
         Definitions.ChannelReference,
         t.null
-      ])),
+      ], "#/definitions/objs_conversation_item_properties_parent_conversation"),
       pending_connected_team_ids: t.array(Definitions.TeamReference),
       pending_shared: t.array(Definitions.TeamReference),
       pin_count: t.union([
@@ -107,7 +107,7 @@ export const Conversation = t.array(t.union([
           accepted_user: Definitions.UserId,
           is_active: t.boolean
         })
-      ], "DefinitionsObjsConversationItemsPropertiesSharesItems")),
+      ], "DefinitionsObjsConversationItemPropertiesSharesItems")),
       timezone_count: t.union([
         t.string,
         t.Int
@@ -130,7 +130,7 @@ export const Conversation = t.array(t.union([
         t.Int
       ])
     })
-  ], "DefinitionsObjsConversationItems"),
+  ], "DefinitionsObjsConversationItem"),
   t.intersection([
     t.type({
       created: t.union([
@@ -148,7 +148,7 @@ export const Conversation = t.array(t.union([
           t.Int
         ]),
         value: t.string
-      }, "DefinitionsObjsConversationItemsPropertiesPurpose"),
+      }, "DefinitionsObjsConversationItemPropertiesPurpose"),
       topic: t.type({
         creator: Definitions.TopicPurposeCreator,
         last_set: t.union([
@@ -156,7 +156,7 @@ export const Conversation = t.array(t.union([
           t.Int
         ]),
         value: t.string
-      }, "DefinitionsObjsConversationItemsPropertiesTopic")
+      }, "DefinitionsObjsConversationItemPropertiesTopic")
     }),
     t.partial({
       accepted_user: Definitions.UserId,
@@ -171,7 +171,7 @@ export const Conversation = t.array(t.union([
           t.string,
           t.Int
         ])
-      }, "DefinitionsObjsConversationItemsPropertiesDisplayCounts"),
+      }, "DefinitionsObjsConversationItemPropertiesDisplayCounts"),
       internal_team_ids: t.array(Definitions.TeamReference),
       is_archived: t.boolean,
       is_channel: t.boolean,
@@ -193,19 +193,19 @@ export const Conversation = t.array(t.union([
       is_shared: t.boolean,
       is_starred: t.boolean,
       last_read: Definitions.Ts,
-      latest: t.array(t.union([
+      latest: t.union([
         Message,
         t.null
-      ])),
+      ], "#/definitions/objs_conversation_item_properties_latest"),
       members: t.array(Definitions.UserId),
       num_members: t.union([
         t.string,
         t.Int
       ]),
-      parent_conversation: t.array(t.union([
+      parent_conversation: t.union([
         Definitions.ChannelReference,
         t.null
-      ])),
+      ], "#/definitions/objs_conversation_item_properties_parent_conversation"),
       pending_connected_team_ids: t.array(Definitions.TeamReference),
       pending_shared: t.array(Definitions.TeamReference),
       pin_count: t.union([
@@ -224,7 +224,7 @@ export const Conversation = t.array(t.union([
           accepted_user: Definitions.UserId,
           is_active: t.boolean
         })
-      ], "DefinitionsObjsConversationItemsPropertiesSharesItems")),
+      ], "DefinitionsObjsConversationItemPropertiesSharesItems")),
       timezone_count: t.union([
         t.string,
         t.Int
@@ -247,7 +247,7 @@ export const Conversation = t.array(t.union([
         t.Int
       ])
     })
-  ], "DefinitionsObjsConversationItems"),
+  ], "DefinitionsObjsConversationItem"),
   t.intersection([
     t.type({
       created: t.union([
@@ -268,14 +268,14 @@ export const Conversation = t.array(t.union([
       is_starred: t.boolean,
       is_user_deleted: t.boolean,
       last_read: Definitions.Ts,
-      latest: t.array(t.union([
+      latest: t.union([
         Message,
         t.null
-      ])),
-      parent_conversation: t.array(t.union([
+      ], "#/definitions/objs_conversation_item_properties_latest"),
+      parent_conversation: t.union([
         Definitions.ChannelReference,
         t.null
-      ])),
+      ], "#/definitions/objs_conversation_item_properties_parent_conversation"),
       pin_count: t.union([
         t.string,
         t.Int
@@ -293,7 +293,7 @@ export const Conversation = t.array(t.union([
         t.partial({
           is_active: t.boolean
         })
-      ], "DefinitionsObjsConversationItemsPropertiesSharesItems")),
+      ], "DefinitionsObjsConversationItemPropertiesSharesItems")),
       unread_count: t.union([
         t.string,
         t.Int
@@ -307,5 +307,5 @@ export const Conversation = t.array(t.union([
         t.Int
       ])
     })
-  ], "DefinitionsObjsConversationItems")
-]));
+  ], "DefinitionsObjsConversationItem")
+], "#/definitions/objs_conversation");

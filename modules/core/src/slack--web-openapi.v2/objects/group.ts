@@ -42,10 +42,10 @@ export const Group = t.intersection([
     is_open: t.boolean,
     is_pending_ext_shared: t.boolean,
     last_read: Definitions.Ts,
-    latest: t.array(t.union([
+    latest: t.union([
       Message,
       t.null
-    ])),
+    ], "#/definitions/objs_group_properties_latest"),
     num_members: t.union([
       t.string,
       t.Int

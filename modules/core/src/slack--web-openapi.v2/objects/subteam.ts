@@ -3,10 +3,10 @@ import * as Definitions from "../definitions";
 
 export const Subteam = t.intersection([
   t.type({
-    auto_type: t.array(t.union([
+    auto_type: t.union([
       t.null,
       t.string
-    ])),
+    ], "#/definitions/objs_subteam_properties_auto_type"),
     created_by: Definitions.UserId,
     date_create: t.union([
       t.string,
@@ -20,10 +20,10 @@ export const Subteam = t.intersection([
       t.string,
       t.Int
     ]),
-    deleted_by: t.array(t.union([
+    deleted_by: t.union([
       t.null,
       Definitions.UserId
-    ])),
+    ], "#/definitions/objs_subteam_properties_deleted_by"),
     description: t.string,
     enterprise_subteam_id: t.string,
     handle: t.string,

@@ -38,10 +38,10 @@ export const Message = t.intersection([
       })
     ], "DefinitionsObjsMessagePropertiesAttachmentsItems")),
     blocks: Blocks,
-    bot_id: t.array(t.union([
+    bot_id: t.union([
       Definitions.BotId,
       t.null
-    ])),
+    ], "#/definitions/objs_message_properties_bot_id"),
     client_msg_id: t.string,
     comment: Comment,
     display_as_bot: t.boolean,

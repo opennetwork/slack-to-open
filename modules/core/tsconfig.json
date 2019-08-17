@@ -2,8 +2,7 @@
     "compilerOptions": {
         "module": "es6",
         "lib": [
-            "es2018",
-            "esnext"
+            "es2018"
         ],
         "types": [
             "node"

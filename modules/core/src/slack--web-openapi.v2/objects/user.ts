@@ -4,7 +4,7 @@ import { EnterpriseUser } from "./enterprise-user";
 import { TeamProfileField } from "./team-profile-field";
 import { UserProfile } from "./user-profile";
 
-export const User = t.array(t.union([
+export const User = t.union([
   t.intersection([
     t.type({
       id: Definitions.UserId,
@@ -32,16 +32,16 @@ export const User = t.array(t.union([
       team_id: Definitions.TeamReference,
       team_profile: t.type({
         fields: t.array(TeamProfileField)
-      }, "DefinitionsObjsUserItemsPropertiesTeamProfile"),
+      }, "DefinitionsObjsUserItemPropertiesTeamProfile"),
       two_factor_type: t.string,
-      tz: t.array(t.union([
+      tz: t.union([
         t.null,
         t.string
-      ])),
+      ], "#/definitions/objs_user_item_properties_tz"),
       tz_label: t.string,
       tz_offset: t.number
     })
-  ], "DefinitionsObjsUserItems"),
+  ], "DefinitionsObjsUserItem"),
   t.intersection([
     t.type({
       id: Definitions.UserId,
@@ -67,15 +67,15 @@ export const User = t.array(t.union([
       team_id: Definitions.TeamReference,
       team_profile: t.type({
         fields: t.array(TeamProfileField)
-      }, "DefinitionsObjsUserItemsPropertiesTeamProfile"),
+      }, "DefinitionsObjsUserItemPropertiesTeamProfile"),
       teams: t.array(Definitions.WorkspaceId),
       two_factor_type: t.string,
-      tz: t.array(t.union([
+      tz: t.union([
         t.null,
         t.string
-      ])),
+      ], "#/definitions/objs_user_item_properties_tz"),
       tz_label: t.string,
       tz_offset: t.number
     })
-  ], "DefinitionsObjsUserItems")
-]));
+  ], "DefinitionsObjsUserItem")
+], "#/definitions/objs_user");

@@ -12,8 +12,10 @@
   },
   "peerDependencies": {},
   "dependencies": {
+    "@opennetwork/web-api-conversation-channel-state": "^2.0.0",
     "fp-ts": "^2.0.5",
     "io-ts": "^2.0.1",
+    "mobx": "^5.13.0",
     "schema-dts": "^0.4.2",
     "tsdef": "^0.0.13"
   },

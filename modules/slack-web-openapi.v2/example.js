@@ -1,4 +1,4 @@
-import * as Slack from "./dist/slack--web-openapi.v2";
+import * as Slack from "./dist";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as t from "io-ts";
 

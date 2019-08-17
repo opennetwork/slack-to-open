@@ -23,10 +23,10 @@
   resolved "https://registry.npmjs.org/@opennetwork/slack-to-open.slack-web-openapi.v2/-/slack-to-open.slack-web-openapi.v2-1.0.0.tgz#ade8ef8ca9f55b03b510bc6f7c80327f96a4b30b"
   integrity sha512-P+qKSAVa3g9nCsWJUGy+jTCMB3yEU43h72lnGTHyIAizDWmUqa0VB63tU80KeWIiKmtbPWpxj52oKyNhD3xCDw==
 
-"@opennetwork/web-api-conversation-channel-state@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@opennetwork/web-api-conversation-channel-state/-/web-api-conversation-channel-state-2.0.0.tgz#a72c541400ed257059dc5ddf4d39b4117e79b6fb"
-  integrity sha512-m6E0x4ECDoumukZ/cVtwiFK6pdN4BZH+yKaSOsfEr7ptCd/2WgXqTReDHPycskLumz0fHKNLxA2qNtWrDvZR8A==
+"@opennetwork/web-api-conversation-channel-state@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/@opennetwork/web-api-conversation-channel-state/-/web-api-conversation-channel-state-3.0.1.tgz#4c2bf1d4265ba1c24483b7e77cbb1832c3223dc8"
+  integrity sha512-6bRAGR+WDpXe9JoHekP6eidCfJP2YqzEktZrqG58opurC2uX0YTPeYAD58wCXZsKwm5NPzN6I/r3U7c2VwMWWA==
   dependencies:
     io-ts "^2.0.1"
     schema-dts "^0.4.2"

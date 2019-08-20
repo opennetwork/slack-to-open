@@ -1,6 +1,6 @@
 {
   "name": "@opennetwork/slack-to-open.core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
@@ -12,7 +12,7 @@
   },
   "peerDependencies": {
     "@opennetwork/slack-to-open.slack-web-openapi.v2": "^1.0.0",
-    "@opennetwork/web-api-conversation-channel-state": "^4.1.0"
+    "@opennetwork/web-api-conversation-channel-state": "^4.4.0"
   },
   "dependencies": {
     "fp-ts": "^2.0.5",

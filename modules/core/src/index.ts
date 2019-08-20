@@ -2,6 +2,7 @@ import { WebAPIState, createWebAPIState, createWebAPIEntity } from "@opennetwork
 import { WebAPI } from "schema-dts";
 
 export * from "./archive";
+export * from "./util";
 
 const baseState: WebAPIState & Pick<WebAPI, "termsOfService" | "url" | "documentation" | "provider"> = {
   ...createWebAPIState(

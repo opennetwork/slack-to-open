@@ -1,8 +1,7 @@
-import { createState, appendArchiveChannels, appendArchiveUsers, getUser } from "./dist";
+import { createState, appendArchiveChannels, appendArchiveUsers, getCommentsForChannel } from "./dist";
 import channels from "./archive/channels";
 import users from "./archive/users";
 import { writeFileSync, readFileSync, readdirSync } from "fs";
-import { createWebAPICommentParent } from "@opennetwork/web-api-conversation-channel-state";
 
 let ourState = createState();
 
@@ -10,24 +9,16 @@ ourState = appendArchiveUsers(ourState, users);
 ourState = appendArchiveChannels(ourState, channels, channel => {
   const channelPath = `archive/${channel.name}`;
   const files = readdirSync(channelPath);
-  return files
+  const messages = files
     .filter(file => /\.json$/.test(file))
     .map(
       file => {
         const contentsJSON = readFileSync(`${channelPath}/${file}`);
-        const contents = JSON.parse(contentsJSON);
-        return contents.map(
-          message => ({
-            ...createWebAPICommentParent(message.id, getUser(ourState, message.creator), ["textual"]),
-            text: message.text
-          })
-        )
+        return JSON.parse(contentsJSON);
       }
     )
-    .reduce(
-      (messages, fileMessages) => messages.concat(fileMessages),
-      []
-    )
+    .reduce((array, value) => array.concat(value), []);
+  return getCommentsForChannel(ourState, messages);
 });
 
 writeFileSync("archive/state.json", JSON.stringify(ourState, null, "  "));
